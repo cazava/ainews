@@ -28,6 +28,8 @@ class Product(Base):
 
 # Создаем таблицы
 Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+
 
 def add_product(title, content=None, review=None, linkPH=None, link=None, img=None, posted=0):
     # Создание сессии
@@ -54,26 +56,25 @@ def get_product_by_id(id):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        pr = session.query(Product).filter(Product.id == id).first()
-        session.commit()
+        product = session.query(Product).filter(Product.id == id).first()
+
     except:
         session.rollback()
     finally:
         session.close()
-    return pr
+    return product
 
 
-def get_product_by_title(title):
-    Session = sessionmaker(bind=engine)
+def get_product_by_title(tit):
     session = Session()
     try:
-        pr = session.query(Product).filter(Product.title == title).first()
+        product = session.query(Product).filter(Product.title == tit).first()
+
     except:
         session.rollback()
     finally:
         session.close()
-    return pr
-
+    return product
 
 def get_all_products():
     Session = sessionmaker(bind=engine)
@@ -92,7 +93,7 @@ def upd_posted(title):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
-        product = get_product_by_title(title)
+        product = session.query(Product).filter(Product.title == title).first()
         product.posted = 1
         session.commit()
 
@@ -102,6 +103,3 @@ def upd_posted(title):
 
     finally:
         session.close()
-
-
-

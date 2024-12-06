@@ -1,9 +1,12 @@
+import asyncio
 from asyncio import sleep as asleep
 
 from aiogram import Bot, Dispatcher, types, F, Router, flags
 from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+import app
 import config
 from bd import get_all_products, upd_posted
 
@@ -16,7 +19,7 @@ async def start(message: Message):
 
 
 async def check_new_posts():
-    products = await get_all_products()
+    products = get_all_products()
     for product in products:
         if product.posted == 0:
             # inline кнопка для ссылки
@@ -31,7 +34,7 @@ async def check_new_posts():
                                  caption=product.review,
                                  reply_markup=kb_app.as_markup(),
                                  parse_mode='Markdown')
-                await upd_posted(product.title)
+                upd_posted(product.title)
                 await asleep(4)
             except Exception as e:
                 print(e)

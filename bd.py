@@ -29,7 +29,7 @@ class Product(Base):
 # Создаем таблицы
 Base.metadata.create_all(engine)
 
-async def add_product(title, content=None, review=None, linkPH=None, link=None, img=None, posted=0):
+def add_product(title, content=None, review=None, linkPH=None, link=None, img=None, posted=0):
     # Создание сессии
     Session = sessionmaker(bind=engine)
     session = Session()
@@ -50,7 +50,7 @@ async def add_product(title, content=None, review=None, linkPH=None, link=None, 
         session.close()
 
 
-async def get_product_by_id(id):
+def get_product_by_id(id):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
@@ -63,7 +63,7 @@ async def get_product_by_id(id):
     return pr
 
 
-async def get_product_by_title(title):
+def get_product_by_title(title):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
@@ -75,7 +75,7 @@ async def get_product_by_title(title):
     return pr
 
 
-async def get_all_products():
+def get_all_products():
     Session = sessionmaker(bind=engine)
     session = Session()
     try:
@@ -88,7 +88,7 @@ async def get_all_products():
         session.close()
 
 
-async def upd_posted(title):
+def upd_posted(title):
     Session = sessionmaker(bind=engine)
     session = Session()
     try:

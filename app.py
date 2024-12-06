@@ -1,3 +1,4 @@
+import asyncio
 import random
 import logging
 
@@ -32,7 +33,7 @@ async def get_news():
         published = entry.find('{http://www.w3.org/2005/Atom}published').text
         updated = entry.find('{http://www.w3.org/2005/Atom}updated').text
         title = entry.find('{http://www.w3.org/2005/Atom}title').text
-        if await get_product_by_title(title):
+        if get_product_by_title(title):
             continue
         content = entry.find('{http://www.w3.org/2005/Atom}content').text
         link_element = entry.find('{http://www.w3.org/2005/Atom}link')
@@ -50,23 +51,23 @@ async def get_news():
             continue
 
         try:
-            desc = await get_desc(link_href)
+            desc = get_desc(link_href)
         except Exception as e:
             continue
             print('Ошибка получения описания')
 
         try:
-            review = await writer.get_post(desc)
+            review = writer.get_post(desc)
         except Exception as e:
             review = None
             print('Ошибка написания обзора')
 
         try:
-            img = await get_img(link_href)
+            img = get_img(link_href)
         except:
             img = None
 
-        await add_product(
+        add_product(
             title=title,
             content=desc,
             review=review,
@@ -76,7 +77,7 @@ async def get_news():
         )
 
 
-async def get_desc(app_url):
+def get_desc(app_url):
     # app_url = f'https://www.producthunt.com/posts/{app_slug}'
 
     app_info = {}
@@ -91,7 +92,7 @@ async def get_desc(app_url):
         return app_info['description']
 
 
-async def get_img(app_url):
+def get_img(app_url):
     response = requests.get(app_url)
     response.raise_for_status()
     soup = BeautifulSoup(response.content, "html.parser")
@@ -99,5 +100,3 @@ async def get_img(app_url):
     img_links = [img['src'] for img in images if 'https://ph-files.imgix.net' and 'max' in img['src']]
 
     return random.choice(img_links).strip()
-
-

@@ -31,8 +31,8 @@ async def start_scheduler():
         handlers.check_new_posts,
         trigger='interval',
         hours=1,
-        minutes=15,
-        args=[handlers.bot]
+        minutes=15
+        # args=[handlers.bot]
     )
 async def main():
     await start_scheduler()

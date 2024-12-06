@@ -5,7 +5,7 @@ from aiogram.types import Message
 from aiogram.filters import Command, CommandObject
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 import config
-from bd import get_all_products
+from bd import get_all_products, upd_posted
 
 router = Router()
 bot = Bot(config.bot_token)
@@ -31,6 +31,7 @@ async def check_new_posts():
                                  caption=product.review,
                                  reply_markup=kb_app.as_markup(),
                                  parse_mode='Markdown')
+                await upd_posted(product.title)
                 await asleep(4)
             except Exception as e:
                 print(e)

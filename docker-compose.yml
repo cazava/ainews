@@ -1,0 +1,6 @@
+services:
+  ainewsbot:
+    build: .
+    restart: always
+    volumes:
+      - /root/ainews:/app

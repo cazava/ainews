@@ -20,8 +20,7 @@ dp.include_router(handlers.router)
 bot = Bot(token=config.bot_token)
 scheduler = AsyncIOScheduler(timezone='Europe/Moscow')
 
-
-async def main():
+async def start_scheduler():
     scheduler.start()
 
     scheduler.add_job(
@@ -35,6 +34,8 @@ async def main():
         minutes=15,
         args=[handlers.bot]
     )
+async def main():
+    await start_scheduler()
     await dp.start_polling(bot, skip_updates=False)
 
 

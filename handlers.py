@@ -35,7 +35,7 @@ async def check_new_posts():
                                  reply_markup=kb_app.as_markup(),
                                  parse_mode='Markdown')
                 upd_posted(product.title)
-                await asleep(4)
+                await asleep(config.delay)
             except Exception as e:
                 print(e)
                 continue

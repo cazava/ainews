@@ -37,6 +37,7 @@ async def start_scheduler():
 async def main():
     await start_scheduler()
     await dp.start_polling(bot, skip_updates=False)
+    await bot.send_message(chat_id=config.admin_id, text='Бот запущен')
 
 
 if __name__ == "__main__":
@@ -46,5 +47,5 @@ if __name__ == "__main__":
             asyncio.run(main())
         except Exception as e:
             logging.exception(datetime.datetime.now(), e)
+            bot.send_message(config.admin_id, 'Бот остановлен')
             time.sleep(3)
-            print(e)

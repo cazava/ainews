@@ -1,3 +1,5 @@
+import logging
+
 import requests
 import json
 
@@ -34,7 +36,7 @@ class Writer:
             content = response.json()['choices'][0].get('message').get('content')
             return content
         except:
-            print('Requset AI error')
+            logging.error('Requset AI error')
 
 
 def prices(file):

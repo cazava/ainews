@@ -52,6 +52,7 @@ async def get_news():
 
         try:
             desc = get_desc(link_href)
+            print(desc)
         except Exception as e:
             continue
             print('Ошибка получения описания')
@@ -85,7 +86,8 @@ def get_desc(app_url):
     response.raise_for_status()
     soup = BeautifulSoup(response.content, "html.parser")
 
-    description_element = soup.find(class_="styles_htmlText__eYPgj text-16 font-normal text-dark-gray")
+    # class ="styles_htmlText__eYPgj text-14 font-normal text-dark-gray text-gray-700"
+    description_element = soup.find(class_="styles_htmlText__eYPgj text-14 font-normal text-dark-gray text-gray-700")
     if description_element:
         description = description_element.get_text(strip=True)
         app_info['description'] = description
@@ -100,3 +102,5 @@ def get_img(app_url):
     img_links = [img['src'] for img in images if 'https://ph-files.imgix.net' and 'max' in img['src']]
 
     return random.choice(img_links).strip()
+
+a = get_news()
